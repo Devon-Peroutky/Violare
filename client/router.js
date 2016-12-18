@@ -1,6 +1,10 @@
 import React from 'react'
-import { render } from 'react-dom'
+import { render } from 'react-dom';
 import { Router, Route, browserHistory, IndexRoute } from 'react-router'
+
+// Layouts
+
+// Pages
 import App from './modules/App'
 import Repos from './modules/Repos'
 import Repo from './modules/Repo'
@@ -8,7 +12,7 @@ import Template from './modules/Template'
 import Boards from './modules/OurBoard'
 import Board from './modules/Board'
 
-render((
+export default (
   <Router history={browserHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={Template}/>
@@ -19,4 +23,4 @@ render((
       </Route>
     </Route>
   </Router>
-), document.getElementById('app'))
+);

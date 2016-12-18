@@ -5,7 +5,7 @@ var APP_DIR = path.resolve(__dirname, '.');
 var BUILD_DIR = path.resolve(__dirname, 'public');
 
 module.exports = {
-  entry: './index.js',
+  entry: './app.js',
 
   output: {
     path: BUILD_DIR,

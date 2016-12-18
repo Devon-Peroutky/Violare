@@ -1,9 +1,10 @@
 import React from 'react'
 import NavLink from './NavLink'
 
+console.log("SUPPP");
 export default React.createClass({
   render() {
-  	console.log("SUPPP")
+  	console.log("SUPPP");
     return (
     	<div>
         <nav id="mainNav" className="navbar navbar-default navbar-fixed-top">

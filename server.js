@@ -107,8 +107,35 @@ app.post('/api/add/company', (req, res) => {
 	});
 });
 
-app.get('/api/featuresOfBoard', (req, res) => {
-	var board_id = req.query.board;
+app.get('/api/boards/:boardId', (req, res) => {
+	var board_id = req.params.boardId;
+	console.log("Board_id: ".concat(board_id));
+
+	//Connect to the cluster
+	const client = new cassandra.Client({contactPoints: ['127.0.0.1'], keyspace: 'dev'});
+	const query = stringHelpers.parse("SELECT * FROM boards WHERE board_id=%s", board_id);
+
+	// Read users and print to console
+	client.execute(query, function (err, result) {
+		if(!err) {
+			console.log("Connected to Cassandra. Executing query: %s", query);	
+			if ( result.rows.length > 0 ) {
+				console.log(result.rows);
+				res.status(200).send(result.rows);
+			} else {
+				console.log("No results");
+				res.status(404).send(["Sorry"]);
+			}
+		} else {
+			console.log(err);
+			res.status(500).send(["Error"]);
+		}
+		client.shutdown();
+	});
+});
+
+app.get('/api/featuresOfBoard/:board_id', (req, res) => {
+	var board_id = req.query.board_id;
 
 	//Connect to the cluster
 	const client = new cassandra.Client({contactPoints: ['127.0.0.1'], keyspace: 'dev'});
