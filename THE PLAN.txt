@@ -1,0 +1,78 @@
+curl -X POST -H "Content-Type: application/json" -d '{"question":"What features do you wish we had?","boardName":"Violare Test Board 1","teamId":"2f1a1b09-3fa9-4d00c14d6188a"}' localhost:3001/api/add/board
+
+curl -X POST -H "Content-Type: application/json" -d '{"boardId":"668b92ac-4df7-49fa-9909-f966147472f8","featureText":"Jira Integration"}' localhost:3001/api/add/feature
+
+
+
+_______ for engineers?
+What database should I use?
+_______ for dummies?
+AMT for engineers? + Calculator
+
+
+Rock Climbing, Working Out, Handspring Backflip
+AI, Big Data/Distribution Systems, Management & Strategy
+React/Redux, Real Estate, Spark Cerfication
+
+Work 8 hours/day 
+Read DDIA 1 hour/day
+React/Redux 2 hours/day
+Body 3 hours/day (1 hour morning + 2 at night)
+14 hours/day
+
+Thursday: 
+- Morning: Pushups
+- Evening: Climb
+
+Friday: 
+- Morning: Sprints & Jumps
+- Evening: Yoga/Climb
+
+Saturday: 
+- Morning:
+- Evening:
+
+Sunday: 
+- Morning:
+- Evening:
+
+Monday: 
+- Morning: Backflip Training
+
+Tuesday: 
+- Morning:
+- Evening:
+
+
+Workout || Rock Climb everyday
+Standing Backflip
+Exercise Twilio Stock
+Abacus in Production
+Violare V1
+Baldwins, Haydens, Patrick, Paul, Dan?
+
+
+BoardList
+- State: BoardList, TeamId
+- Action: None
+FeatureAddToBoard
+- State: None
+- Action: POST feature CREATE to backend
+CreateBoard
+- State: NONE
+- Action: POST board CREATE to backend
+BoardSummarize
+- State: FeatureList, BoardID
+- Action: None
+Register Company
+- State: NONE
+- Action: POST company CREATE to backend
+CompanyList
+- State: CompanyList
+- Action: None
+Create Team
+- State: None
+- Action: POST team CREATE to backend
+TeamList
+- State: TeamList, CompanyId
+- Action: None
