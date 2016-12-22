@@ -1,20 +1,32 @@
-import React from 'react'
+import React from 'react';
 import { connect } from 'react-redux';
-import store from '../store/BoardStore.js';
+import store from '../store.js';
 import axios from 'axios';
+import NavLink from './NavLink';
 var stringHelpers = require('../utilities/stringHelpers.js');
+
+function BoardList(props) {
+  console.log("HERE");
+  console.log(props);
+  const boards = props.boards;
+  const listBoards = boards.map((board) => 
+    <li key={board.board_id}><NavLink to={ "/boards/" + board.board_id }>{board.board_name}: {board.question}, {board.team_id}</NavLink></li>
+  );
+  return (
+    <ul>{listBoards}</ul>
+  )
+}
 
 const BoardListContainer = React.createClass({
   getInitialState: function() {
-  	console.log("Setting the intial state")	
+  	console.log("Setting the intial state");
     return {
-      boards: []
+      board: []
     };
   },
 
   componentDidMount: function() {
-  	var boardId = "668b92ac-4df7-49fa-9909-f966147472f8"
-  	var boardResourcePath = stringHelpers.parse("http://localhost:8080/api/boards/%s", boardId)
+    var boardResourcePath = "http://localhost:8080/api/v1/boards/";
   	console.log(boardResourcePath);
     axios.get(boardResourcePath).then(response => {
     	console.log("SUCCESS!");
@@ -27,15 +39,18 @@ const BoardListContainer = React.createClass({
   },
 
   render: function() {
-	return (<div><h2>{this.props.boards}</h2></div>);
+    var boards = this.props.boards ? this.props.boards : [];
+    console.log(boards);
+
+    return (
+      <BoardList boards={ boards } />
+    )
   }	
 });
 
 const mapStateToProps = function(store) {
-	console.log("Mapping: ");
-	console.log(store)
 	return {
-		boards: store.boardState.boards
+		boards: store.boardListState.boards
 	};
 }
 

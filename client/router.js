@@ -9,7 +9,7 @@ import App from './modules/App'
 import Repos from './modules/Repos'
 import Repo from './modules/Repo'
 import Template from './modules/Template'
-import Boards from './modules/OurBoard'
+import Boards from './modules/Boards'
 import Board from './modules/Board'
 
 export default (

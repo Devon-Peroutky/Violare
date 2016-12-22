@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux';
-import store from '../store/FeatureStore.js';
+import store from '../reducers/FeatureReducer.js';
 import axios from 'axios';
 var stringHelpers = require('../utilities/stringHelpers.js');
 
@@ -16,7 +16,7 @@ export default React.createClass({
 
   componentDidMount: function() {
   	var boardId = "668b92ac-4df7-49fa-9909-f966147472f8"
-  	var boardResourcePath = stringHelpers.parse("http://localhost:8080/api/featuresOfBoard/%s"
+  	var boardResourcePath = stringHelpers.parse("http://localhost:3001/api/featuresOfBoard/%s"
   	
     axios.get("").then(response => {
       this.setState({users: response.data});

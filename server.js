@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // ---------------------------
 // API 
 // ---------------------------
-app.post('/api/add/feature', (req, res) => {
+app.post('/api/v1/add/feature', (req, res) => {
 	console.log(req.body);
 	var sway = 0;
 	var status = 0;
@@ -43,7 +43,7 @@ app.post('/api/add/feature', (req, res) => {
 	});	
 });
 
-app.post('/api/add/board', (req, res) => {
+app.post('/api/v1/add/board', (req, res) => {
 	console.log(req.body);
 	var board_name = req.body.boardName;
 	var question = req.body.question;
@@ -65,7 +65,7 @@ app.post('/api/add/board', (req, res) => {
 	});
 });
 
-app.post('/api/add/team', (req, res) => {
+app.post('/api/v1/add/team', (req, res) => {
 	console.log(req.body);
 	var team_name = req.body.teamName;
 	var company_id = req.body.companyId;
@@ -86,7 +86,7 @@ app.post('/api/add/team', (req, res) => {
 	});
 });
 
-app.post('/api/add/company', (req, res) => {
+app.post('/api/v1/add/company', (req, res) => {
 	var company = req.body.companyName
 	console.log(company)
 
@@ -107,7 +107,31 @@ app.post('/api/add/company', (req, res) => {
 	});
 });
 
-app.get('/api/boards/:boardId', (req, res) => {
+app.get('/api/v1/boards/', (req, res) => {
+	//Connect to the cluster
+	const client = new cassandra.Client({contactPoints: ['127.0.0.1'], keyspace: 'dev'});
+	const query = stringHelpers.parse("SELECT * FROM boards");
+
+	// Read users and print to console
+	client.execute(query, function (err, result) {
+		if(!err) {
+			console.log("Connected to Cassandra. Executing query: %s", query);	
+			if ( result.rows.length > 0 ) {
+				console.log(result.rows);
+				res.status(200).send(result.rows);
+			} else {
+				console.log("No results");
+				res.status(404).send(["Sorry"]);
+			}
+		} else {
+			console.log(err);
+			res.status(500).send(["Error"]);
+		}
+		client.shutdown();
+	});
+});
+
+app.get('/api/v1/boards/:boardId', (req, res) => {
 	var board_id = req.params.boardId;
 	console.log("Board_id: ".concat(board_id));
 
@@ -134,8 +158,9 @@ app.get('/api/boards/:boardId', (req, res) => {
 	});
 });
 
-app.get('/api/featuresOfBoard/:board_id', (req, res) => {
-	var board_id = req.query.board_id;
+app.get('/api/v1/featuresOfBoard/:board_id', (req, res) => {
+	var board_id = req.params.board_id;
+	console.log("Board_id: " + board_id);
 
 	//Connect to the cluster
 	const client = new cassandra.Client({contactPoints: ['127.0.0.1'], keyspace: 'dev'});
@@ -160,7 +185,7 @@ app.get('/api/featuresOfBoard/:board_id', (req, res) => {
 	});
 });
 
-app.get('/api/test', (req, res) => {
+app.get('/api/v1/test', (req, res) => {
 	console.log(req.query.q);
 
 	//Connect to the cluster
@@ -189,6 +214,11 @@ app.get('/api/test', (req, res) => {
 app.get('/', function (req, res) {
   res.send('Hello World!\n');
 })
+
+app.get('*', function(req, res) {
+  console.log("DID NOT CATCH");
+  res.status(404).send(["WHAT ARE YOU TRYING TO DO??!?!?!?"]);
+});
 
 // ---------------------------
 // Run the Server
