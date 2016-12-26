@@ -15,23 +15,23 @@ app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-
 // ---------------------------
 // API 
 // ---------------------------
 app.post('/api/v1/add/feature', (req, res) => {
 	console.log(req.body);
-	var sway = 0;
+	// INSERT TO COUNTER table
+
 	var status = 0;
-	var votes = 0;
-	var feature_text = req.body.featureText;
-	var board_id = req.body.boardId;
+	var feature_text = req.body.feature_text;
+	var board_id = req.body.board_id;
+	var board_name = req.body.board_name;
 
 	//Connect to the cluster
 	const client = new cassandra.Client({contactPoints: ['127.0.0.1'], keyspace: 'dev'});
-	const query = stringHelpers.parse("INSERT INTO features (feature_id, added_date, board_id, feature_text, votes, status, sway) VALUES (uuid(), toTimestamp(now()), " + board_id + ", \'" + feature_text + "\', \'" + votes + "\', \'" + status + "\', \'" + sway + "\')");
+	const query = stringHelpers.parse("INSERT INTO features_of_board (feature_id, added_date, board_id, board_name, feature_text, status) VALUES (uuid(), toTimestamp(now()), ?, ?, ?, ?)");
 
-	client.execute(query, function (err, result) {
+	client.execute(query, [board_id, board_name, feature_text, status], {prepare: true}, function (err, result) {
 		console.log("Connected to Cassandra. Executing query: %s", query);
 		if(!err) { 
 			res.status(200).send("INSERT successful");
@@ -41,6 +41,27 @@ app.post('/api/v1/add/feature', (req, res) => {
 		}
 		client.shutdown();
 	});	
+});
+
+app.post('/api/v1/upvote/:board_id/:feature_id', (req, res) => {
+	var board_id = req.params.board_id;
+	var feature_id = req.params.feature_id;
+	console.log("Board_id: " + board_id, "feature_id:" + feature_id);
+
+	//Connect to the cluster
+	const client = new cassandra.Client({contactPoints: ['127.0.0.1'], keyspace: 'dev'});
+	const query = stringHelpers.parse("UPDATE election SET votes = votes + 1 WHERE feature_id = ? AND board_id = ?");
+
+	client.execute(query, [feature_id, board_id], { prepare: true }, function (err, result) {
+		console.log("Connected to Cassandra. Executing query: %s", query);
+		if(!err) { 
+			res.status(200).send("INSERT successful");
+		} else {
+			console.log(err);
+			res.status(500).send(["Error"]);			
+		}
+		client.shutdown();
+	});
 });
 
 app.post('/api/v1/add/board', (req, res) => {
@@ -143,9 +164,12 @@ app.get('/api/v1/boards/:boardId', (req, res) => {
 	client.execute(query, function (err, result) {
 		if(!err) {
 			console.log("Connected to Cassandra. Executing query: %s", query);	
-			if ( result.rows.length > 0 ) {
-				console.log(result.rows);
-				res.status(200).send(result.rows);
+			if ( result.rows.length == 1 ) {
+				console.log(result.rows[0]);
+				res.status(200).send(result.rows[0]);
+			} else if ( result.rows.length > 1 ) {
+				console.log(err);
+				res.status(500).send(["Error. Found more than one board with that boardId."]);
 			} else {
 				console.log("No results");
 				res.status(404).send(["Sorry"]);

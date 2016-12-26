@@ -43,7 +43,11 @@ const BoardListContainer = React.createClass({
     console.log(boards);
 
     return (
-      <BoardList boards={ boards } />
+      <div>
+        <p></p>
+        <p></p>
+        <BoardList boards={ boards } />
+      </div>
     )
   }	
 });
