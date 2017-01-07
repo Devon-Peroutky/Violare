@@ -16,6 +16,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // ---------------------------
+// Initialize application logic
+// ---------------------------
+
+// ---------------------------
 // API 
 // ---------------------------
 app.post('/api/v1/add/feature', (req, res) => {

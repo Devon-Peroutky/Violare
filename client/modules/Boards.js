@@ -6,14 +6,18 @@ import NavLink from './NavLink';
 var stringHelpers = require('../utilities/stringHelpers.js');
 
 function BoardList(props) {
-  console.log("HERE");
   console.log(props);
   const boards = props.boards;
   const listBoards = boards.map((board) => 
-    <li key={board.board_id}><NavLink to={ "/boards/" + board.board_id }>{board.board_name}: {board.question}, {board.team_id}</NavLink></li>
+    <li className ="list-group-item" key={board.board_id}>
+      <NavLink to={ "/boards/" + board.board_id }>
+        <h2 id="boardName">{board.board_name}</h2>      
+        <h3 id="boardQuestion">{board.question}</h3>
+      </NavLink>
+    </li>
   );
   return (
-    <ul>{listBoards}</ul>
+    <ul className = "list-group">{listBoards}</ul>
   )
 }
 
@@ -40,12 +44,9 @@ const BoardListContainer = React.createClass({
 
   render: function() {
     var boards = this.props.boards ? this.props.boards : [];
-    console.log(boards);
-
     return (
       <div>
-        <p></p>
-        <p></p>
+        <h1>TeamName's boards </h1>
         <BoardList boards={ boards } />
       </div>
     )

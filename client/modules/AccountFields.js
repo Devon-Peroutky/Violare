@@ -1,18 +1,16 @@
-// file: AccountFields.jsx
-
 var React = require('react')
 
 var AccountFields = React.createClass({
   render: function() {
     return ( 
       <div>
-        <label>Name</label> 
+        <label>I am </label> 
         <input type="text" ref="name" defaultValue={ this.props.fieldValues.name } />
 
-        <label>What do you want from us?</label>
+        <label>and I wish you guys </label>
         <input type="text" ref="answer" defaultValue={ this.props.fieldValues.answer } />
 
-        <button onClick={ this.saveAndContinue }>Save and Continue</button>
+        <button onClick={ this.saveAndContinue }>Get it done!</button>
       </div>
     )
   },

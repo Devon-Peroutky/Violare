@@ -3,45 +3,36 @@ import axios from 'axios';
 import store from '../store.js';
 import { connect } from 'react-redux';
 import NavLink from './NavLink';
-import UserForm from './UserForm'
+import UserForm from './UserForm';
+import Feature from './Feature';
 var stringHelpers = require('../utilities/stringHelpers.js');
 
 var BoardView = React.createClass({
-  render: function() {
+  render: function() {    
     var boardFeatures = store.getState().boardState.features;
     var board = store.getState().boardState.board;
-    const listFeatures = boardFeatures.map((boardWithFeatures) => 
-      <li key={boardWithFeatures.feature_id}>
-        <NavLink to={ "/feature/" + boardWithFeatures.feature_id } key = { boardWithFeatures.feature_id }>
-          {boardWithFeatures.feature_text}, {boardWithFeatures.status}, {boardWithFeatures.sway}
-        </NavLink>
-        <button onClick = { () => this.upvote(board.board_id, boardWithFeatures.feature_id) } >I want this!</button>
-      </li>
-    );
+    var listFeatures = boardFeatures.map((boardFeature) => 
+      <li className ="list-group-item" key={boardFeature.feature_id}>
+        <Feature 
+          feature_id = { boardFeature.feature_id }
+          feature_text = { boardFeature.feature_text }
+          board_id = { board.board_id }
+          status = { boardFeature.status }/>
+      </li>);
     return (
       <div>
         <h1>{board.board_name}</h1>
         <h2>{board.question}</h2>
-        <ul>{listFeatures}</ul>
+        <ul className = "list-group" id="featureList">
+          {listFeatures}
+          <li className ="list-group-item"><UserForm /></li>
+        </ul>
       </div>
     )
-  },
-
-  upvote: function(board_id, feature_id) {
-    var featureUpvotePath = stringHelpers.parse("http://localhost:8080/api/v1/upvote/%s/%s", board_id, feature_id);
-    console.log(featureUpvotePath)
-    axios.post(featureUpvotePath)
-      .then(response => {
-        console.log(response.data)    
-      })
-      .catch(function (error) {
-        console.log("PROBLEMS!");
-        console.log(error);
-      });
   }
 });
 
-const BoardContainer = React.createClass({
+var BoardContainer = React.createClass({
   currentBoard: function(boardId) {
     var boardResourcePath = stringHelpers.parse("http://localhost:8080/api/v1/boards/%s", boardId);
     axios.get(boardResourcePath)
@@ -101,7 +92,6 @@ const BoardContainer = React.createClass({
     return (
       <div>
         <BoardView />
-        <UserForm />
       </div>
     )
   }
