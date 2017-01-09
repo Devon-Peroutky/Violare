@@ -1,0 +1,14 @@
+body { 
+    padding-top: 65px; 
+    position: relative;	
+	height: 100%; 
+	width: 100%;    
+}
+
+nav.mainNav {
+	margin-bottom: 1000px;
+}
+
+#featureStatus {
+	float:right;
+}
