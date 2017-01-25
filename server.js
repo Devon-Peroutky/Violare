@@ -26,16 +26,24 @@ app.post('/api/v1/add/feature', (req, res) => {
 	console.log(req.body);
 	// INSERT TO COUNTER table
 
-	var status = 0;
-	var feature_text = req.body.feature_text;
+	// Board
 	var board_id = req.body.board_id;
 	var board_name = req.body.board_name;
 
+	// Feature	
+	var name = req.body.name;
+	var email = req.body.email;
+	var organization = req.body.organization;
+	var feature_summary = req.body.feature_title;
+	var feature_text = req.body.feature_text;
+    var desire = req.body.desire;
+	var status = 0;
+
 	//Connect to the cluster
 	const client = new cassandra.Client({contactPoints: ['127.0.0.1'], keyspace: 'dev'});
-	const query = stringHelpers.parse("INSERT INTO features_of_board (feature_id, added_date, board_id, board_name, feature_text, status) VALUES (uuid(), toTimestamp(now()), ?, ?, ?, ?)");
+	const query = stringHelpers.parse("INSERT INTO features_of_board (feature_id, added_date, board_id, board_name, name, email, organization, feature_summary, feature_text, desire, status) VALUES (uuid(), toTimestamp(now()), ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-	client.execute(query, [board_id, board_name, feature_text, status], {prepare: true}, function (err, result) {
+	client.execute(query, [board_id, board_name, name, email, organization, feature_summary, feature_text, desire, status], {prepare: true}, function (err, result) {
 		console.log("Connected to Cassandra. Executing query: %s", query);
 		if(!err) { 
 			res.status(200).send("INSERT successful");

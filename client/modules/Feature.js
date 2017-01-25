@@ -1,4 +1,4 @@
-var React = require('react')
+var React = require('react');
 import axios from 'axios';
 var stringHelpers = require('../utilities/stringHelpers.js');
 

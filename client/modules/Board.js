@@ -92,6 +92,8 @@ var BoardContainer = React.createClass({
     return (
       <div>
         <BoardView />
+        <script src="/NaturalLanguageForm/js/nlform.js"></script>
+        <script> var nlform = new NLForm( document.getElementById( 'nl-form' ) ); </script>        
       </div>
     )
   }
