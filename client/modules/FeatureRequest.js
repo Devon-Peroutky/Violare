@@ -18,31 +18,31 @@ var FeatureRequest = React.createClass({
                 <div className="main clearfix">
                   <form>
                     <div className="form-group">
-                      <label for="exampleInputEmail1">Name</label>
+                      <label>Name</label>
                       <input type="email" className="form-control" ref="name" aria-describedby="emailHelp" placeholder="What is your name friend?"/>
                     </div>
                     <div className="form-group">
-                      <label for="exampleInputEmail1">Email</label>
+                      <label>Email</label>
                       <input type="email" className="form-control" ref="email" aria-describedby="emailHelp" placeholder="How should we contact you?"/>
                     </div>
                     <div className="form-group">
-                      <label for="exampleInputEmail1">Organization</label>
+                      <label>Organization</label>
                       <input type="email" className="form-control" ref="organization" aria-describedby="emailHelp" placeholder="Where do you work?"/>
                     </div>
                     <div className="form-group">
-                      <label for="exampleTextarea">What I want from you</label>
+                      <label>What I want from you</label>
                       <textarea className="form-control" ref="feature" rows="3"></textarea>
                     </div>
                     <div className="form-group">
-                      <label for="exampleInputEmail1">Feature Title</label>
+                      <label>Feature Title</label>
                       <input type="email" className="form-control" ref="featureTitle" aria-describedby="emailHelp" placeholder="What should we call this?"/>
                     </div>
                     <div className="form-inline">
                       <label className="mr-sm-2" for="inlineFormCustomSelect">I would</label><t/>
                       <select ref="desire" className="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect">
-                        <option value="1" selected >be willing to pay for this</option>
+                        <option value="1" defaultValue >be willing to pay for this</option>
                         <option value="2">may be willing to pay for this</option>
-                        <option value="3">would not be willing to pay this, but still want it</option>
+                        <option value="3">not be willing to pay this, but still want it</option>
                       </select>
                     </div>          
                   </form>

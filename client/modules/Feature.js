@@ -34,11 +34,15 @@ var Feature = React.createClass({
 	    };
 	    console.log(this.state.voted);
 		return ( 
-		  <div>
-		    {this.props.feature_text}<br/>
-		    <button className="btn btn-success" data-toggle="button" aria-pressed= { this.state.voted } onClick = { () => this.upvote(this.props.board_id, this.props.feature_id) } >I want this!</button>
-		    <span className="badge badge-default badge-pill" id="featureStatus">{statusMap[this.props.status]}</span>
-		  </div>
+		  	<div className="accordion-group">
+			  	<h3 className="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">{this.props.feature_summary}<span className="badge badge-default badge-pill" id="featureStatus">{statusMap[this.props.status]}</span></h3>
+			  	<div id="collapseOne" className="accordion-body collapse">
+			  		<div className="accordion-inner">
+			  			<div>{this.props.feature_text}</div>
+						<button className="btn btn-success" data-toggle="button" aria-pressed= { this.state.voted } onClick = { () => this.upvote(this.props.board_id, this.props.feature_id) } >I want this!</button>			  			
+		  			</div>
+		    	</div>
+	    	</div> 
 		)
 	}
 })
