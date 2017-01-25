@@ -90,9 +90,7 @@ var BoardContainer = React.createClass({
   render: function() {
     var boardFeatures = this.props.boardFeatures ? this.props.boardFeatures : [];
     return (
-      <div>
-        <BoardView />
-      </div>
+      <BoardView />
     )
   }
 });

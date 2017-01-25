@@ -3,7 +3,7 @@ import store from '../store.js';
 import { connect } from 'react-redux';
 
 var React         = require('react')
-var AccountFields = require('./AccountFields')
+var FeatureRequest = require('./FeatureRequest')
 //var SurveyFields  = require('./SurveyFields')
 //var Confirmation  = require('./Confirmation')
 //var Success       = require('./Success')
@@ -28,12 +28,25 @@ const UserForm = React.createClass({
 
 	    fieldValues = Object.assign({}, fieldValues, fields)
 
+		var name = fieldValues.name
+		var email = fieldValues.email
+		var organization = fieldValues.organization
+		var featureTitle = fieldValues.featureTitle
+	    var answer = fieldValues.answer
+	    var desire = fieldValues.desire
+	    
+
 	    var payload = {
 	    	sway: 1,
 	    	status: 0,
 	    	votes: 1,
-	    	feature_text: fieldValues.answer,
+	    	feature_text: answer,
 	    	board_id: boardId,
+	    	name: name,
+	    	email: email,
+	    	organization: organization,
+	    	feature_title: featureTitle,
+	    	desire: desire,
 	    	board_name: boardName
 	    }
 
@@ -65,7 +78,7 @@ const UserForm = React.createClass({
 	},	
 
 	render: function() {
-		return <AccountFields fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} />
+		return <FeatureRequest fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} />
 	}
 })
 
