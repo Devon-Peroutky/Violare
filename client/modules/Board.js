@@ -11,10 +11,16 @@ var BoardView = React.createClass({
   render: function() {    
     var boardFeatures = store.getState().boardState.features;
     var board = store.getState().boardState.board;
+    console.log(boardFeatures)
     var listFeatures = boardFeatures.map((boardFeature) => 
       <li className ="list-group-item" key={boardFeature.feature_id}>
         <Feature 
           feature_id = { boardFeature.feature_id }
+          feature_summary = { boardFeature.feature_summary }
+          desire = { boardFeature.desire }
+          email = { boardFeature.email }
+          organization = { boardFeature.organization }
+          name = { boardFeature.name }
           feature_text = { boardFeature.feature_text }
           board_id = { board.board_id }
           status = { boardFeature.status }/>
