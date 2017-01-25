@@ -3,59 +3,105 @@ import axios from 'axios';
 import store from '../store.js';
 import { connect } from 'react-redux';
 import NavLink from './NavLink';
+import UserForm from './UserForm';
+import Feature from './Feature';
 var stringHelpers = require('../utilities/stringHelpers.js');
 
-function Board(props) {
-  console.log("IN HERE DAWG");
-  const board = props.board;
-  const listFeatures = board.map((boardWithFeatures) => 
-    <li key={boardWithFeatures.feature_id}><NavLink to={ "/feature/" + boardWithFeatures.feature_id }>{boardWithFeatures.board_name}: {boardWithFeatures.feature_text}, {boardWithFeatures.status}, {boardWithFeatures.sway}</NavLink></li>
-  );
-  return (
-    <ul>{listFeatures}</ul>
-  )
+var BoardView = React.createClass({
+  render: function() {    
+    var boardFeatures = store.getState().boardState.features;
+    var board = store.getState().boardState.board;
+    var listFeatures = boardFeatures.map((boardFeature) => 
+      <li className ="list-group-item" key={boardFeature.feature_id}>
+        <Feature 
+          feature_id = { boardFeature.feature_id }
+          feature_text = { boardFeature.feature_text }
+          board_id = { board.board_id }
+          status = { boardFeature.status }/>
+      </li>);
+    return (
+      <div>
+        <h1>{board.board_name}</h1>
+        <h2>{board.question}</h2>
+        <ul className = "list-group" id="featureList">
+          {listFeatures}
+          <li className ="list-group-item"><UserForm /></li>
+        </ul>
+      </div>
+    )
+  }
+});
 
-  return (
-    <div>
-      <h1>{board.board_name}</h1>
-      <h2>{board.question}</h2>
-    </div>
-  )
-}
+var BoardContainer = React.createClass({
+  currentBoard: function(boardId) {
+    var boardResourcePath = stringHelpers.parse("http://localhost:8080/api/v1/boards/%s", boardId);
+    axios.get(boardResourcePath)
+      .then(response => {
+        console.log(response.data)
+        store.dispatch({
+          type: 'BOARD_CURRENT',
+          active_board: response.data
+        });
+      })
+      .catch(function (error) {
+        console.log("PROBLEMS!");
+        console.log(error);
+      }); 
+  },
 
-const BoardContainer = React.createClass({
+  // List all of the Features of this board
+  getFeaturesOfBoard: function(boardId) {
+    var boardResourcePath = stringHelpers.parse("http://localhost:8080/api/v1/featuresOfBoard/%s", boardId);
+    axios.get(boardResourcePath)
+      .then(response => {
+        store.dispatch({
+          type: 'BOARD_DESCRIBE_SUCCESS',
+          returned_board: response.data
+        });
+      })
+      .catch(function (error) {
+        store.dispatch({
+          type: 'BOARD_DESCRIBE_SUCCESS',
+          returned_board: []
+        });
+        console.log("PROBLEMS!");
+        console.log(error);
+
+      });
+  },  
+
   getInitialState: function() {
-  	console.log("Setting the intial state of the board");
-    return {
-      board: []
-    };
+    return this.props.currentBoard
   },
 
   componentDidMount: function() {
-  	var boardId = this.props.params.boardId;
-  	var boardResourcePath = stringHelpers.parse("http://localhost:8080/api/v1/featuresOfBoard/%s", boardId);
-  	console.log(boardResourcePath);
-    axios.get(boardResourcePath).then(response => {
-    	console.log("SUCCESS!");
-    	store.dispatch({
-    		type: 'BOARD_DESCRIBE_SUCCESS',
-    		returned_board: response.data
-    	});
-    });
+    // Get current boardId from URI params
+    var boardId = this.props.params.boardId;
+
+    // Set state
+    this.currentBoard(boardId)
+
+    // Get feature of current board
+    this.getFeaturesOfBoard(boardId)
+
+    console.log(store.getState())
   },
 
   render: function() {
-    var board = this.props.board ? this.props.board : [];
+    var boardFeatures = this.props.boardFeatures ? this.props.boardFeatures : [];
     return (
-      <Board board={ board } />
+      <div>
+        <BoardView />
+      </div>
     )
-  }	
+  }
 });
 
 
 const mapStateToProps = function(store) {
   return {
-  	board: store.boardState.board
+  	currentBoard: store.boardState.board,
+    boardFeatures: store.boardState.features
   };
 }
 

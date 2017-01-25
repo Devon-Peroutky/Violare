@@ -19,7 +19,7 @@ export default (
       <Route path="/boards" component={Boards}/>
   	  <Route path="/boards/:boardId" component={Board}/>
       <Route path="/repos" component={Repos}>
-    	<Route path="/repos/:userName/:repoName" component={Repo}/>
+    	   <Route path="/repos/:userName/:repoName" component={Repo}/>
       </Route>
     </Route>
   </Router>
