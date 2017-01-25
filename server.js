@@ -31,7 +31,7 @@ app.post('/api/v1/add/feature', (req, res) => {
 	var board_name = req.body.board_name;
 
 	// Feature	
-	var name = req.body.name
+	var name = req.body.name;
 	var email = req.body.email;
 	var organization = req.body.organization;
 	var feature_summary = req.body.feature_title;
