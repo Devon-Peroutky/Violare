@@ -21,6 +21,18 @@ var Feature = React.createClass({
 			    console.log("PROBLEMS!");
 			    console.log(error);
 			  });
+		} else {
+			var featureUpvotePath = stringHelpers.parse("http://localhost:8080/api/v1/unvote/%s/%s", board_id, feature_id);
+			console.log(featureUpvotePath);
+			axios.post(featureUpvotePath)
+			  .then(response => {
+			    console.log(response.data);
+			    this.setState({ voted: true });
+			  })
+			  .catch(function (error) {
+			    console.log("PROBLEMS!");
+			    console.log(error);
+			  });			
 		}
 	},
 	render: function() {

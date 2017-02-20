@@ -76,6 +76,27 @@ app.post('/api/v1/upvote/:board_id/:feature_id', (req, res) => {
 	});
 });
 
+app.post('/api/v1/unvote/:board_id/:feature_id', (req, res) => {
+	var board_id = req.params.board_id;
+	var feature_id = req.params.feature_id;
+	console.log("Board_id: " + board_id, "feature_id:" + feature_id);
+
+	//Connect to the cluster
+	const client = new cassandra.Client({contactPoints: ['127.0.0.1'], keyspace: 'dev'});
+	const query = stringHelpers.parse("UPDATE election SET votes = votes - 1 WHERE feature_id = ? AND board_id = ?");
+
+	client.execute(query, [feature_id, board_id], { prepare: true }, function (err, result) {
+		console.log("Connected to Cassandra. Executing query: %s", query);
+		if(!err) { 
+			res.status(200).send("INSERT successful");
+		} else {
+			console.log(err);
+			res.status(500).send(["Error"]);			
+		}
+		client.shutdown();
+	});
+});
+
 app.post('/api/v1/add/board', (req, res) => {
 	console.log(req.body);
 	var board_name = req.body.boardName;
