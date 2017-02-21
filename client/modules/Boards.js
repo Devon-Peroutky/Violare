@@ -6,7 +6,6 @@ import NavLink from './NavLink';
 var stringHelpers = require('../utilities/stringHelpers.js');
 
 function BoardList(props) {
-  console.log(props);
   const boards = props.boards;
   const listBoards = boards.map((board) => 
     <li className ="list-group-item" key={board.board_id}>
@@ -23,7 +22,6 @@ function BoardList(props) {
 
 const BoardListContainer = React.createClass({
   getInitialState: function() {
-  	console.log("Setting the intial state");
     return {
       board: []
     };
@@ -31,10 +29,7 @@ const BoardListContainer = React.createClass({
 
   componentDidMount: function() {
     var boardResourcePath = "http://localhost:8080/api/v1/boards/";
-  	console.log(boardResourcePath);
     axios.get(boardResourcePath).then(response => {
-    	console.log("SUCCESS!");
-    	console.log(response.data);
     	store.dispatch({
     		type: 'BOARD_LIST_SUCCESS',
     		returned_boards: response.data
@@ -46,7 +41,7 @@ const BoardListContainer = React.createClass({
     var boards = this.props.boards ? this.props.boards : [];
     return (
       <div>
-        <h1>TeamName's boards </h1>
+        <h1>TeamName boards </h1>
         <BoardList boards={ boards } />
       </div>
     )

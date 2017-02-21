@@ -8,19 +8,18 @@ import Feature from './Feature';
 var stringHelpers = require('../utilities/stringHelpers.js');
 
 var BoardView = React.createClass({
-  render: function() {    
-    var boardFeatures = store.getState().boardState.features;
+  render: function() {
+    var features = store.getState().boardState.features
+    var boardFeatures = features ? features : [];
     var board = store.getState().boardState.board;
-    console.log(boardFeatures)
+
     var listFeatures = boardFeatures.map((boardFeature) => 
       <li className ="list-group-item" key={boardFeature.feature_id}>
         <Feature 
           feature_id = { boardFeature.feature_id }
           feature_summary = { boardFeature.feature_summary }
-          desire = { boardFeature.desire }
           email = { boardFeature.email }
           organization = { boardFeature.organization }
-          name = { boardFeature.name }
           feature_text = { boardFeature.feature_text }
           board_id = { board.board_id }
           status = { boardFeature.status }/>
@@ -43,14 +42,13 @@ var BoardContainer = React.createClass({
     var boardResourcePath = stringHelpers.parse("http://localhost:8080/api/v1/boards/%s", boardId);
     axios.get(boardResourcePath)
       .then(response => {
-        console.log(response.data)
         store.dispatch({
           type: 'BOARD_CURRENT',
           active_board: response.data
         });
       })
       .catch(function (error) {
-        console.log("PROBLEMS!");
+        console.log("PROBLEMS fetching Board: ", boardId);
         console.log(error);
       }); 
   },
@@ -62,7 +60,7 @@ var BoardContainer = React.createClass({
       .then(response => {
         store.dispatch({
           type: 'BOARD_DESCRIBE_SUCCESS',
-          returned_board: response.data
+          returned_features_of_board: response.data
         });
       })
       .catch(function (error) {
@@ -70,14 +68,13 @@ var BoardContainer = React.createClass({
           type: 'BOARD_DESCRIBE_SUCCESS',
           returned_board: []
         });
-        console.log("PROBLEMS!");
+        console.log("PROBLEMS fetching features of Board: ", boardId);
         console.log(error);
-
       });
   },  
 
   getInitialState: function() {
-    return this.props.currentBoard
+    return this.props.currentBoard;
   },
 
   componentDidMount: function() {
@@ -85,16 +82,13 @@ var BoardContainer = React.createClass({
     var boardId = this.props.params.boardId;
 
     // Set state
-    this.currentBoard(boardId)
+    this.currentBoard(boardId);
 
     // Get feature of current board
-    this.getFeaturesOfBoard(boardId)
-
-    console.log(store.getState())
+    this.getFeaturesOfBoard(boardId);
   },
 
   render: function() {
-    var boardFeatures = this.props.boardFeatures ? this.props.boardFeatures : [];
     return (
       <BoardView />
     )
@@ -105,7 +99,8 @@ var BoardContainer = React.createClass({
 const mapStateToProps = function(store) {
   return {
   	currentBoard: store.boardState.board,
-    boardFeatures: store.boardState.features
+    boardFeatures: store.boardState.features,
+    featureComments: store.featureState.comments
   };
 }
 
