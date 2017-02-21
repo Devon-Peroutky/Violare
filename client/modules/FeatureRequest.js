@@ -38,7 +38,7 @@ var FeatureRequest = React.createClass({
                       <input type="email" className="form-control" ref="featureTitle" aria-describedby="emailHelp" placeholder="What should we call this?"/>
                     </div>
                     <div className="form-inline">
-                      <label className="mr-sm-2" for="inlineFormCustomSelect">I would</label><t/>
+                      <label className="mr-sm-2" htmlFor="inlineFormCustomSelect">I would</label><t/>
                       <select ref="desire" className="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect">
                         <option value="1" defaultValue >be willing to pay for this</option>
                         <option value="2">may be willing to pay for this</option>

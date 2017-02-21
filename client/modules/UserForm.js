@@ -2,11 +2,8 @@ import axios from 'axios';
 import store from '../store.js';
 import { connect } from 'react-redux';
 
-var React         = require('react')
-var FeatureRequest = require('./FeatureRequest')
-//var SurveyFields  = require('./SurveyFields')
-//var Confirmation  = require('./Confirmation')
-//var Success       = require('./Success')
+var React         = require('react');
+var FeatureRequest = require('./FeatureRequest');
 
 var fieldValues = {
   name     : null,
@@ -15,6 +12,7 @@ var fieldValues = {
 
 const UserForm = React.createClass({
 	getInitialState: function() {
+		console.log("Initializing UserForm to Step 1");
 		return {
 			step: 1
 		}
