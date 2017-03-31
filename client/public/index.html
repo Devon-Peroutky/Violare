@@ -33,10 +33,12 @@
 </head>
 
 <body>
+    <div class="g-signin2" data-onsuccess=onSignIn></div>
     <div id="app"></div>
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://apis.google.com/js/platform.js?onload=onLoadCallback" async defer></script>
+
+
     <script>
-        /*
         function onSignIn(googleUser) {
 
           console.log('IN HERE DAWG');
@@ -45,10 +47,19 @@
           console.log('Name: ' + profile.getName());
           console.log('Image URL: ' + profile.getImageUrl());
           console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-        }*/
+        }
     </script>
 
+    <script>
+        window.onLoadCallback = function(){
+          gapi.auth2.init({
+              client_id: '1093353630310-uu92ln0r8hqrc51vtdsvir3o0of2r5qa.apps.googleusercontent.com'
+            });
+        }
+    </script>
+    
 	<script src="/bundle.js"></script>
+
 
     <!-- jQuery -->
     <script src="/vendor/jquery/jquery.min.js"></script>
