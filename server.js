@@ -74,9 +74,9 @@ app.post('/api/v1/add/feature', (req, res) => {
 
 	//Connect to the cluster
 	const client = new cassandra.Client({contactPoints: ['127.0.0.1'], keyspace: 'dev'});
-	const query = stringHelpers.parse("INSERT INTO features_of_board (feature_id, added_date, board_id, board_name, name, email, organization, feature_summary, feature_text, desire, status) VALUES (uuid(), toTimestamp(now()), ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+	const query = stringHelpers.parse("INSERT INTO features_of_board (feature_id, added_date, board_id, board_name, name, email, organization, feature_summary, feature_text, status) VALUES (uuid(), toTimestamp(now()), ?, ?, ?, ?, ?, ?, ?, ?)");
 
-	client.execute(query, [board_id, board_name, name, email, organization, feature_summary, feature_text, desire, status], {prepare: true}, function (err, result) {
+	client.execute(query, [board_id, board_name, name, email, organization, feature_summary, feature_text, status], {prepare: true}, function (err, result) {
 		console.log("Connected to Cassandra. Executing query: %s", query);
 		if(!err) { 
 			res.status(200).send("INSERT successful");
@@ -124,7 +124,7 @@ app.post('/api/v1/unvote/:board_id/:feature_id', (req, res) => {
 
 	//Connect to the cluster
 	const client = new cassandra.Client({contactPoints: ['127.0.0.1'], keyspace: 'dev'});
-	const query = stringHelpers.parse("UPDATE election SET votes = votes - 1 WHERE feature_id = ? AND board_id = ?");
+	const query = stringHelpers.parse("UPDATE feature_election SET votes = votes - 1 WHERE feature_id = ? AND board_id = ?");
 
 	client.execute(query, [feature_id, board_id], { prepare: true }, function (err, result) {
 		console.log("Connected to Cassandra. Executing query: %s", query);

@@ -12,7 +12,7 @@ export default React.createClass({
                         <div className="header-content">
                             <div className="header-content-inner">
                                 <h1>Swag is an app that will blow your fucking mind</h1>
-                                <a href="/user/registration" className="btn btn-outline btn-xl page-scroll">Start Now for Free!</a>
+                                <a href="/userLogin" className="btn btn-outline btn-xl page-scroll">Start Now for Free!</a>
                             </div>
                         </div>
                     </div>
@@ -100,7 +100,7 @@ export default React.createClass({
                 <div className="cta-content">
                     <div className="container">
                         <h2>Tell us what we can be building for you.<br/>Honestly.</h2>
-                        <NavLink to="/boards" className="btn btn-outline btn-xl page-scroll">Click me</NavLink>
+                        <NavLink to="/boards" className="btn btn-outline btn-xl page-scroll">Browse around!</NavLink>
                     </div>
                 </div>
                 <div className="overlay"></div>

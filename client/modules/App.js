@@ -1,8 +1,34 @@
-import React from 'react'
-import NavLink from './NavLink'
+import React from 'react';
+import NavLink from './NavLink';
 
-export default React.createClass({
-  render() {
+const App = React.createClass({
+  onFailure: function(error) {
+    println("ERROR")
+    console.log(error);
+  },
+
+  componentDidMount() {
+    console.log("WAITING");
+    console.log("RENDERING THIS BUTTON");
+    gapi.signin2.render('g-signin2', {
+      'scope': 'https://www.googleapis.com/auth/plus.login',
+      'width': 200,
+      'height': 50,
+      'longtitle': true,
+      'theme': 'dark',
+      'onsuccess': this.onSignIn
+    });
+  },
+
+  render: function() {
+    function onSignIn(googleUser) {
+      console.log("HEYYYYY");
+      var profile = googleUser.getBasicProfile();
+      console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+      console.log('Name: ' + profile.getName());
+      console.log('Image URL: ' + profile.getImageUrl());
+      console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+    }
     return (
     	<div>
         <nav id="mainNav" className="navbar navbar-default navbar-fixed-top">
@@ -25,7 +51,7 @@ export default React.createClass({
                   </ul>
               </div>
           </div>
-        </nav>
+        </nav>        
     	  {this.props.children}
         <footer>
           <div className="container">
@@ -42,7 +68,19 @@ export default React.createClass({
               </ul>
           </div>
         </footer>
+        <div className="g-signin2" data-onsuccess={this.onSignIn} />
 		  </div>
     )
-  }
-})
+  },
+
+  onSignIn: function(googleUser) {
+    console.log("HEYYYYYYY");
+    var profile = googleUser.getBasicProfile();
+    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    console.log('Name: ' + profile.getName());
+    console.log('Image URL: ' + profile.getImageUrl());
+    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+  }  
+});
+
+module.exports = App;

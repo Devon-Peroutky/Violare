@@ -21,6 +21,7 @@ function BoardList(props) {
 }
 
 const BoardListContainer = React.createClass({
+
   getInitialState: function() {
     return {
       board: []

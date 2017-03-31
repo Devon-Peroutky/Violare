@@ -2,12 +2,15 @@
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
+
+    <!-- Google OAuth -->
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="1093353630310-uu92ln0r8hqrc51vtdsvir3o0of2r5qa.apps.googleusercontent.com">
 
     <title>Swag</title>
 
@@ -30,8 +33,20 @@
 </head>
 
 <body>
-	<div id="app"></div>
+    <div id="app"></div>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script>
+        /*
+        function onSignIn(googleUser) {
 
+          console.log('IN HERE DAWG');
+          var profile = googleUser.getBasicProfile();
+          console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+          console.log('Name: ' + profile.getName());
+          console.log('Image URL: ' + profile.getImageUrl());
+          console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+        }*/
+    </script>
 
 	<script src="/bundle.js"></script>
 
@@ -45,6 +60,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 
     <!-- Theme JavaScript -->
-    <script src="/js/new-age.min.js"></script>  
+    <script src="/js/new-age.min.js"></script>
 </body>
 </html>

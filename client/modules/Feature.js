@@ -6,6 +6,7 @@ var stringHelpers = require('../utilities/stringHelpers.js');
 
 function CommentList(props) {
 	const comments = props.comments;
+	console.log("Mapping undefined here?");
 	const listComments = comments.map((comment) => 
 		<li className ="list-group-item" key={comment.comment_id}>
 			<div className="commentText">
@@ -55,6 +56,7 @@ var Feature = React.createClass({
 		  })
 	},
 	fetchCommentsOfFeature: function(board_id, feature_id) {
+		console.log("BoardId", board_id, "FEATURE", feature_id);
 		var commentResourcePath = stringHelpers.parse("http://localhost:8080/api/v1/commentsOfFeature/%s/%s", board_id, feature_id);
 		axios.get(commentResourcePath)
 		  .then( response => {
@@ -76,6 +78,8 @@ var Feature = React.createClass({
 	componentDidMount: function() {
 	    var board_id = this.props.board_id;
 	    var feature_id = this.props.feature_id;
+
+	    console.log("BoardId: ", board_id, "feature_id", feature_id);
 
 		// Get comments
 		this.fetchCommentsOfFeature(board_id, feature_id);
